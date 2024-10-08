@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-SERVER_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZXrm0AXgoOcJWckgr/ZgYVdHKrJHJg5G52bIx6zc4b user@server"
+SERVER_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZXrm0AXgoOcJWckgr/ZgYVdHKrJHJg5G52bIx6zc4b user@ssh.nicholaslyz.com"
 
 sudo apt update
 
