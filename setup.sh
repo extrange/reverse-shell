@@ -15,6 +15,8 @@ ssh-keygen -A -t ed25519
 
 service ssh --full-restart
 
+touch ~/.ssh/authorized_keys
+touch ~/.ssh/known_hosts
 echo "$SERVER_KEY" >> ~/.ssh/authorized_keys
 echo "$SERVER_KEY" >> ~/.ssh/known_hosts
 
