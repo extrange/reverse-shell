@@ -34,5 +34,10 @@ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list   # helps tools such as command-not-found to work correctly
 sudo apt update && sudo apt install -y kubectl
 
+# Kompose
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.34.0/kompose-linux-amd64 -o kompose
+chmod +x kompose
+sudo mv ./kompose /usr/local/bin/kompose
+
 
 ssh -R localhost:9001:localhost:22 -p 39483 user@ssh.nicholaslyz.com -N
