@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+set -euo pipefail
+
 SERVER_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZXrm0AXgoOcJWckgr/ZgYVdHKrJHJg5G52bIx6zc4b user@ssh.nicholaslyz.com:39483"
 
 sudo apt update
@@ -10,7 +12,7 @@ sudo ssh-keygen -A
 
 sudo service ssh --full-restart
 
-touch ~/.ssh
+mkdir -p ~/.ssh
 touch "$HOME/.ssh/authorized_keys"
 touch "$HOME/.ssh/known_hosts"
 echo "$SERVER_KEY" >> "$HOME/.ssh/authorized_keys"
