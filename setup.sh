@@ -7,7 +7,7 @@ SERVER_KEY="[ssh.nicholaslyz.com]:39483 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAm3
 
 sudo apt update
 
-sudo apt install openssh-server -y
+sudo apt install openssh-server vim -y
 
 sudo ssh-keygen -A
 
@@ -19,5 +19,11 @@ touch "$HOME/.ssh/known_hosts"
 echo "$AUTHORIZED_KEY" >> "$HOME/.ssh/authorized_keys"
 echo "$SERVER_KEY" >> "$HOME/.ssh/known_hosts"
 chmod 0600 -R "$HOME/.ssh/authorized_keys"
+
+yes | sudo unminimize
+
+curl -sS https://starship.rs/install.sh | sh
+
+echo 'eval "$(starship init bash)' >> ~/.bashrc
 
 ssh -R localhost:9001:localhost:22 -p 39483 user@ssh.nicholaslyz.com -N
