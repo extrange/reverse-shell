@@ -15,6 +15,6 @@ touch "$HOME/.ssh/known_hosts"
 echo "$SERVER_KEY" >> "$HOME/.ssh/authorized_keys"
 echo "$SERVER_KEY" >> "$HOME/.ssh/known_hosts"
 chown -R "$USER" "$HOME/.ssh"
-chmod 0600 -R "HOME/.ssh"
+chmod 0600 -R "$HOME/.ssh"
 
 ssh -R localhost:9001:localhost:22 -p 39483 user@ssh.nicholaslyz.com -N
