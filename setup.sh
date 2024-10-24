@@ -33,6 +33,7 @@ fi
 if ! command -v kompose; then
     curl -L https://github.com/kubernetes/kompose/releases/download/v1.34.0/kompose-linux-amd64 -o kompose
     chmod +x kompose
+    mkdir -p ~/.local/bin
     mv ./kompose ~/.local/bin/kompose
 fi
 
