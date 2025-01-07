@@ -12,7 +12,7 @@ First, create an AWS Sagemaker notebook instance.
 
 Then, run the following and note the key fingerprint:
 
-```bash
+```sh
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N '' -q && cat ~/.ssh/id_ed25519.pub
 ```
 
@@ -23,6 +23,12 @@ Create an AWS EC2 instance, which will be used as the jump host. Note the public
 Under Security Groups, add a rule allowing inbound TCP traffic on port 9999.
 
 Connect to the AWS EC2 instance and add the key fingerprint above to `~/.ssh/authorized_keys`.
+
+Run the following to allow SSH to open remotely accessible listening ports on the jump host:
+
+```sh
+echo "GatewayPorts clientspecified" | sudo tee /etc/ssh/sshd_config.d/10-gateway-ports.conf
+```
 
 ### Setup Reverse Shell
 
@@ -36,6 +42,6 @@ curl https://raw.githubusercontent.com/extrange/reverse-shell/main/setup.sh | ba
 
 ### Misc
 
-To setup a convenient host alias and execute Starship automatically, add `.ssh/ssh-config` on the local host (your computer).
+To setup a convenient host alias and execute Starship automatically, add `.ssh/ssh-config` on the local host (your computer). You can then do `ssh hcc` on your computer.
 
 To configure both staging and production accounts, copy `~/.aws/config` to the same path on the remote host.
