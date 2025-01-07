@@ -2,8 +2,17 @@
 
 set -euox pipefail
 
-AUTHORIZED_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZXrm0AXgoOcJWckgr/ZgYVdHKrJHJg5G52bIx6zc4b user@ssh.nicholaslyz.com:39483"
-SERVER_KEY="[ssh.nicholaslyz.com]:39483 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAm3fEcDvIM7cFCjB3vzBb4YctOGMpjf8X3IxRl5HhjV"
+JUMP_HOST_HOSTNAME="ec2-18-143-74-176.ap-southeast-1.compute.amazonaws.com"
+JUMP_HOST_USERNAME="nicholas"
+JUMP_HOST_PORT=9999
+
+# Keys which will be allowed to connect to the sagemaker host, via the jump host
+AUTHORIZED_KEYS="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZXrm0AXgoOcJWckgr/ZgYVdHKrJHJg5G52bIx6zc4b server@nicholas
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN3RCwHWzK/gKI8Lplk/qoaoJemh8h/op5Oe7/IXepWK laptop@nicholas
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyJ0LttXH9j3Ql7J1ccJbhLWdYhYn24qR6a8ur72hVi desktop@nicholas"
+
+# Added to the sagemaker host's known_hosts
+JUMP_HOST_KEY="$JUMP_HOST_HOSTNAME ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKG408vS6+iix/ZVHASXcSsILGlsqq5jSIf+s2ORHLzI"
 
 sudo apt update && sudo apt install openssh-server vim bash-completion apt-transport-https ca-certificates curl gnupg -y
 
@@ -12,8 +21,8 @@ sudo ssh-keygen -A && sudo service ssh --full-restart
 mkdir -p ~/.ssh
 touch "$HOME/.ssh/authorized_keys"
 touch "$HOME/.ssh/known_hosts"
-echo "$AUTHORIZED_KEY" >>"$HOME/.ssh/authorized_keys"
-echo "$SERVER_KEY" >>"$HOME/.ssh/known_hosts"
+echo "$AUTHORIZED_KEYS" >>"$HOME/.ssh/authorized_keys"
+echo "$JUMP_HOST_KEY" >>"$HOME/.ssh/known_hosts"
 chmod 0600 -R "$HOME/.ssh/authorized_keys"
 
 { yes || :; } | sudo unminimize
@@ -44,4 +53,5 @@ if ! command -v starship; then
     echo 'eval "$(starship init bash)' >>~/.bashrc
 fi
 
-ssh -R localhost:9001:localhost:22 -p 39483 user@ssh.nicholaslyz.com -N
+# Open a reverse shell on the jump host, listening on the specified port
+ssh -R ":$JUMP_HOST_PORT:localhost:22" "$JUMP_HOST_USERNAME@$JUMP_HOST_HOSTNAME" -N
