@@ -4,10 +4,37 @@ Sets up a reverse shell on remote machines, using an AWS internet accessible jum
 
 Mainly for AWS Sagemaker notebooks.
 
+## Setup
+
+### Create Sagemaker Code Editor and obtain key fingerprint
+
+First, create an AWS Sagemaker notebook instance.
+
+Then, run the following and note the key fingerprint:
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N '' -q && cat ~/.ssh/id_ed25519.pub
+```
+
+### Setup AWS EC2 Jump Host
+
+Create an AWS EC2 instance, which will be used as the jump host. Note the public DNS hostname.
+
+Under Security Groups, add a rule allowing inbound TCP traffic on port 9999.
+
+Connect to the AWS EC2 instance and add the key fingerprint above to `~/.ssh/authorized_keys`.
+
+### Setup Reverse Shell
+
+If necessary, edit the environment variables in `setup.sh` appropriately.
+
+Now, we can setup the reverse shell. Run the following on the Sagemaker Code Editor:
 
 ```sh
 curl https://raw.githubusercontent.com/extrange/reverse-shell/main/setup.sh | bash
 ```
+
+### Misc
 
 To setup a convenient host alias and execute Starship automatically, add `.ssh/ssh-config` on the local host (your computer).
 

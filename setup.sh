@@ -16,8 +16,10 @@ JUMP_HOST_KEY="$JUMP_HOST_HOSTNAME ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKG408vS6
 
 sudo apt update && sudo apt install openssh-server vim bash-completion apt-transport-https ca-certificates curl gnupg -y
 
+# Generate host keys and start sshd
 sudo ssh-keygen -A && sudo service ssh --full-restart
 
+# Add authorized_keys and known_hosts
 mkdir -p ~/.ssh
 touch "$HOME/.ssh/authorized_keys"
 touch "$HOME/.ssh/known_hosts"
