@@ -56,4 +56,5 @@ if ! command -v starship; then
 fi
 
 # Open a reverse shell on the jump host, listening on the specified port
-autossh -R ":$JUMP_HOST_PORT:localhost:22" "$JUMP_HOST_USERNAME@$JUMP_HOST_HOSTNAME" -N
+# -M 0: turn off monitoring mode for autossh
+autossh -M 0 -R ":$JUMP_HOST_PORT:localhost:22" "$JUMP_HOST_USERNAME@$JUMP_HOST_HOSTNAME" -N
