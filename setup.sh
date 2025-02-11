@@ -14,7 +14,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyJ0LttXH9j3Ql7J1ccJbhLWdYhYn24qR6a8ur72hVi
 # Added to the sagemaker host's known_hosts
 JUMP_HOST_KEY="$JUMP_HOST_HOSTNAME ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKG408vS6+iix/ZVHASXcSsILGlsqq5jSIf+s2ORHLzI"
 
-sudo apt update && sudo apt install openssh-server vim bash-completion apt-transport-https ca-certificates curl gnupg -y
+sudo apt update && sudo apt install openssh-server autossh vim bash-completion apt-transport-https ca-certificates curl gnupg -y
 
 # Generate host keys and start sshd
 sudo ssh-keygen -A && sudo service ssh --full-restart
@@ -56,4 +56,4 @@ if ! command -v starship; then
 fi
 
 # Open a reverse shell on the jump host, listening on the specified port
-ssh -R ":$JUMP_HOST_PORT:localhost:22" "$JUMP_HOST_USERNAME@$JUMP_HOST_HOSTNAME" -N
+autossh -R ":$JUMP_HOST_PORT:localhost:22" "$JUMP_HOST_USERNAME@$JUMP_HOST_HOSTNAME" -N
