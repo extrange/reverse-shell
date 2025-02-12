@@ -27,6 +27,41 @@ echo "$AUTHORIZED_KEYS" >>"$HOME/.ssh/authorized_keys"
 echo "$JUMP_HOST_KEY" >>"$HOME/.ssh/known_hosts"
 chmod 0600 -R "$HOME/.ssh/authorized_keys"
 
+# Write .bashrc
+cat << 'EOF' >~/.bashrc
+export AWS_PROFILE=staging
+complete -C '/usr/local/bin/aws_completer' aws
+eval "$(starship init bash)"
+EOF
+
+# Write AWS configuration
+cat << 'EOF' >~/.aws/config
+[profile prod]
+sso_session = default
+sso_account_id = 609779000005
+sso_role_name = infraadmin
+region = ap-southeast-1
+
+[profile staging]
+sso_session = default
+sso_account_id = 536639232685
+sso_role_name = infraadmin
+region = ap-southeast-1
+
+[sso-session default]
+sso_start_url = https://d-96671f89a7.awsapps.com/start/#
+sso_region = ap-southeast-1
+sso_registration_scopes = sso:account:access
+EOF
+
+# Write SSH config
+cat << 'EOF' >~/.ssh/config
+Host *
+	# Timeout after which client will disconnect from server
+	# Autossh will then restart the client
+	ServerAliveInterval 15
+EOF
+
 { yes || :; } | sudo unminimize
 
 # Kubectl

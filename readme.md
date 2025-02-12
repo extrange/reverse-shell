@@ -43,5 +43,3 @@ curl https://raw.githubusercontent.com/extrange/reverse-shell/main/setup.sh | ba
 ### Misc
 
 To setup a convenient host alias and execute Starship automatically, add `.ssh/ssh-config` on the local host (your computer). You can then do `ssh hcc` on your computer.
-
-To configure both staging and production accounts, copy `~/.aws/config` to the same path on the remote host.
